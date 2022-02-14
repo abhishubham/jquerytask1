@@ -6,7 +6,11 @@ $(document).ready(function () {
   });
 
 
+$("#notification").hide();
 
+$("#add_product").click(function(){
+  $('.success').show();
+});
 
 
 
@@ -21,12 +25,22 @@ $(document).ready(function () {
     var price = document.getElementById("product_price").value;
     var quantity = document.getElementById("product_quantity").value;
 
-    var objproduct = {
-      sku: sku,
-      name: name,
-      price: price,
-      quantity: quantity,
-    };
+    if(sku==isNaN){
+      $('.error').css("border-color", "red");
+    }
+
+
+    else{
+      var objproduct = {
+        sku: sku,
+        name: name,
+        price: price,
+        quantity: quantity,
+      };
+
+    }
+
+  
     productArr.push(objproduct);
 
     addrow(productArr);
@@ -48,7 +62,10 @@ function addrow(productArr) {
       productArr[i].price +
       "</td><td>" +
       productArr[i].quantity +
-      '</td><td><a href="#" onClick="onEdit(this)" class ="edit" > Edit</a><a href="#"  class = "delete"> Delete</a></td></tr>';
+      '</td><td><a href="#" onClick="onEdit(this)" class ="edit" > Edit</a><a href="#"  onclick="DeleteRow('+ parseInt(productArr[i].sku)+')" class = "delete"> Delete</a></td></tr>'
+      
+      
+      ;
   }
   html += "</table>";
   document.getElementById("product_list").innerHTML = html;
@@ -95,9 +112,16 @@ function addrow(productArr) {
   });
 
 
-  $('.delete').click(DeleteRow);
+  function DeleteRow(y){
 
-  function DeleteRow(){
-    $(this).parents('tr').first().remove();
+    for(var i= 0; i < productArr.length; i++){
+if(productArr[i].sku ==y){
+
+      alert("do you want to delete data")
+      productArr.splice(i,1)
+    }
+  }
+addrow(productArr);
+
   }
 
