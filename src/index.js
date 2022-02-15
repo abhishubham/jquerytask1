@@ -7,6 +7,7 @@ $(document).ready(function () {
 
   $(".success").hide();
   $(".error").hide();
+  // $("#update_product").hide();
 
   $("#add_product").on("click", function () {
     var sku = document.getElementById("product_sku").value;
@@ -15,16 +16,16 @@ $(document).ready(function () {
     var quantity = document.getElementById("product_quantity").value;
 
     if (isNaN(sku)) {
-      $(".error").show().fadeOut(3000);
+      $(".error").show().fadeOut(4000);
       $(".success").hide();
-      // alert('Product SKU should be number');
+      alert('Product SKU should be number');
       $("product_name").css({ "border-color": "red" });
     } else if (sku == "") {
       alert("Field is empty")
 
       $(".error").show().fadeOut(3000);
       $(".success").hide();
-      $("#product_sku").css("border-color", "red").fadeOut(2000);
+      $("#product_sku").css("bordercolor", " 1px solid black");
       $("")
 
 
@@ -47,13 +48,13 @@ $(document).ready(function () {
       alert("Field is empty")
 
       $(".success").hide();
-      $("#product_price").css("border-color", "red");
+      $("#product_price").css("bordercolor", " 1px solid black");
     } else if (quantity == "") {
       $(".error").show().fadeOut(3000);
       alert("Field is empty")
 
       $(".success").hide();
-      $("#product_quantity").css("border-color", "red");
+      $("#product_quantity").css("bordercolor", " 1px solid black");
     } else {
       var objproduct = {
         sku: sku,
@@ -101,6 +102,8 @@ function addrow(productArr) {
 function onEdit(td) {
   $("#add_product").hide();
   $("edit").click(function () {
+
+    // $("#update_product").show();
     $("#update_product").show().fadeOut(3000);
   });
 
