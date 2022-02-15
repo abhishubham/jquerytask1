@@ -1,23 +1,12 @@
 var productArr = [];
 $(document).ready(function () {
-//   $("update_product").hide();
+  //   $("update_product").hide();
   $("#update_product").click(function () {
     $("#add_product").show();
   });
 
-
-$("#notification").hide();
-
-$("#add_product").click(function(){
-  $('.success').show();
-});
-
-
-
-
-
-
-
+  $(".success").hide();
+  $(".error").hide();
 
   $("#add_product").on("click", function () {
     var sku = document.getElementById("product_sku").value;
@@ -25,12 +14,47 @@ $("#add_product").click(function(){
     var price = document.getElementById("product_price").value;
     var quantity = document.getElementById("product_quantity").value;
 
-    if(sku==isNaN){
-      $('.error').css("border-color", "red");
-    }
+    if (isNaN(sku)) {
+      $(".error").show().fadeOut(3000);
+      $(".success").hide();
+      // alert('Product SKU should be number');
+      $("product_name").css({ "border-color": "red" });
+    } else if (sku == "") {
+      alert("Field is empty")
+
+      $(".error").show().fadeOut(3000);
+      $(".success").hide();
+      $("#product_sku").css("border-color", "red").fadeOut(2000);
+      $("")
 
 
-    else{
+
+
+
+
+
+
+
+
+    } else if (name == "") {
+      $(".error").show().fadeOut(3000);
+      alert("Field is empty")
+
+      $(".success").hide();
+      $("#product_name").css("bordercolor", " 1px solid black");
+    } else if (price == "") {
+      $(".error").show().fadeOut(3000);
+      alert("Field is empty")
+
+      $(".success").hide();
+      $("#product_price").css("border-color", "red");
+    } else if (quantity == "") {
+      $(".error").show().fadeOut(3000);
+      alert("Field is empty")
+
+      $(".success").hide();
+      $("#product_quantity").css("border-color", "red");
+    } else {
       var objproduct = {
         sku: sku,
         name: name,
@@ -38,11 +62,10 @@ $("#add_product").click(function(){
         quantity: quantity,
       };
 
+      productArr.push(objproduct);
+      $(".success").show();
+      $(".error").hide();
     }
-
-  
-    productArr.push(objproduct);
-
     addrow(productArr);
   });
 });
@@ -62,66 +85,60 @@ function addrow(productArr) {
       productArr[i].price +
       "</td><td>" +
       productArr[i].quantity +
-      '</td><td><a href="#" onClick="onEdit(this)" class ="edit" > Edit</a><a href="#"  onclick="DeleteRow('+ parseInt(productArr[i].sku)+')" class = "delete"> Delete</a></td></tr>'
-      
-      
-      ;
+      '</td><td><a href="#" onClick="onEdit(this)" class ="edit" > Edit</a><a href="#"  onclick="DeleteRow(' +
+      parseInt(productArr[i].sku) +
+      ')" class = "delete"> Delete</a></td></tr>';
   }
   html += "</table>";
   document.getElementById("product_list").innerHTML = html;
+
+  $("#add_product").click(function () {
+    $(".success").show().fadeOut(3000);
+    $(".error").hide();
+  });
 }
 
-
-
-  function onEdit(td) {
-    $("#add_product").hide();
-   $("edit").click( function(){
-      $("#update_product").show();
-    });
-    
-    var selectedRow = td.parentElement.parentElement;
-    document.getElementById("product_sku").value = selectedRow.cells[0].innerHTML;
-    document.getElementById("product_name").value =
-      selectedRow.cells[1].innerHTML;
-    document.getElementById("product_price").value =
-      selectedRow.cells[2].innerHTML;
-    document.getElementById("product_quantity").value =
-      selectedRow.cells[3].innerHTML;
-
-
-
-  }
-
-
-  $("#update_product").click(function(){
-    var v_sku = document.getElementById("product_sku").value;
-    var v_name = document.getElementById("product_name").value;
-    var v_price = document.getElementById("product_price").value;
-    var v_quantity = document.getElementById("product_quantity").value;
-
-    for(let i = 0; i<productArr.length; i++){
-      if(productArr[i].sku == v_sku)
-      {
-        productArr[i].sku =v_sku;
-        productArr[i].name = v_name;
-        productArr[i].price=v_price;
-        productArr[i].quantity =v_quantity;
-      }
-    }
-    addrow(productArr)
+function onEdit(td) {
+  $("#add_product").hide();
+  $("edit").click(function () {
+    $("#update_product").show().fadeOut(3000);
   });
 
+  var selectedRow = td.parentElement.parentElement;
+  document.getElementById("product_sku").value = selectedRow.cells[0].innerHTML;
+  document.getElementById("product_name").value =
+    selectedRow.cells[1].innerHTML;
+  document.getElementById("product_price").value =
+    selectedRow.cells[2].innerHTML;
+  document.getElementById("product_quantity").value =
+    selectedRow.cells[3].innerHTML;
+}
 
-  function DeleteRow(y){
+$("#update_product").click(function () {
+  var v_sku = document.getElementById("product_sku").value;
+  var v_name = document.getElementById("product_name").value;
+  var v_price = document.getElementById("product_price").value;
+  var v_quantity = document.getElementById("product_quantity").value;
 
-    for(var i= 0; i < productArr.length; i++){
-if(productArr[i].sku ==y){
-
-      alert("do you want to delete data")
-      productArr.splice(i,1)
+  for (let i = 0; i < productArr.length; i++) {
+    if (productArr[i].sku == v_sku) {
+      productArr[i].sku = v_sku;
+      productArr[i].name = v_name;
+      productArr[i].price = v_price;
+      productArr[i].quantity = v_quantity;
     }
   }
-addrow(productArr);
+  addrow(productArr);
+});
 
+function DeleteRow(y) {
+  for (var i = 0; i < productArr.length; i++) {
+    if (productArr[i].sku == y) {
+      // if(comfirm ('Are you sure you want to delete data')){
+      alert("ARE YOU want to delete");
+      productArr.splice(i, 1);
+    }
+    // }
   }
-
+  addrow(productArr);
+}
